@@ -51,10 +51,30 @@ jobs:
         push: true
         tags: ${{ secrets.DOCKER_USERNAME }}/shopping-kart:latest
 
-    - name: Deploy Docker Container
-      run: |
-        docker run -d --name shopping-kart -p 8070:8070 ${{ secrets.DOCKER_USERNAME }}/shopping-kart:latest
 
+  deploy:
+      needs: build
+      runs-on: ubuntu-latest
+
+      
+      steps:
+
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.EC2_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
         
+      - name: Deploy Docker Container
+        run: |
+            docker image pull ${{ secrets.DOCKER_USERNAME }}/shopping-kart:latest
+            docker container stop shopping-kart || true  # Stop the container if it's running
+            docker container rm shopping-kart || true    # Remove the container if it exists
+            docker container run -d --name shopping-kart -p 8070:8070 ${{ secrets.DOCKER_USERNAME }}/shopping-kart:latest
         
+          
+
+          
+          
   
