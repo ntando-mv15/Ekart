@@ -68,7 +68,7 @@ jobs:
         
       - name: Deploy Docker Container
         run: | 
-            ssh -o StrictHostKeyChecking=no -i "~/.ssh/id_rsa" ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST } << 'EOF'
+            ssh -o StrictHostKeyChecking=no -i "~/.ssh/id_rsa" ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
              docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
              docker pull ${{ secrets.DOCKER_USERNAME }}/shopping-kart:latest
              docker run -d --name shopping-kart -p 8070:8070 ${{ secrets.DOCKER_USERNAME }}/shopping-kart:latest
