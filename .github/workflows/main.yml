@@ -47,6 +47,7 @@ jobs:
       uses: docker/build-push-action@v4
       with:
         context: .
+        file: docker/Dockerfile
         push: true
         tags: ${{ secrets.DOCKER_USERNAME }}/shopping-kart:latest
 
