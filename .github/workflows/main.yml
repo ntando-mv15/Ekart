@@ -69,9 +69,7 @@ jobs:
       - name: Deploy Docker Container
         run: |
             docker image pull ${{ secrets.DOCKER_USERNAME }}/shopping-kart:latest
-            docker container stop shopping-kart || true  # Stop the container if it's running
-            docker container rm shopping-kart || true    # Remove the container if it exists
-            docker container run -d --name shopping-kart -p 8070:8070 ${{ secrets.DOCKER_USERNAME }}/shopping-kart:latest
+            docker run -d --name shopping-kart -p 8070:8070 ${{ secrets.DOCKER_USERNAME }}/shopping-kart:latest
         
           
 
